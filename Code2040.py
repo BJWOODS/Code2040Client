@@ -1,5 +1,6 @@
 import httplib, urllib
 import ast
+import json
 responseMsg = ""
 def WebClientApiCaller(host, path, jsonData): 
     params = urllib.urlencode(jsonData)
@@ -35,6 +36,6 @@ pos = needle(dictionary)
 
 print pos
 
-jsonDataNew = {"token":"9e46e028f978939349e3fcd8d8a8c283","needle":pos}
+jsonDataNew = {"token":"9e46e028f978939349e3fcd8d8a8c283","needle":json.dumps(pos)} #explicitly converting to json
 
 WebClientApiCaller(host, validPath, jsonDataNew)
