@@ -1,5 +1,6 @@
 import httplib, urllib
 import ast
+import json
 responseMsg = ""
 def WebClientApiCaller(host, path, jsonData): 
     params = urllib.urlencode(jsonData)
@@ -13,28 +14,27 @@ def WebClientApiCaller(host, path, jsonData):
     print response.status
     return responseMsg
 
-
 def reverseString(str): 
     revStr = str[::-1] #reversing string using slicing 
     return "".join(revStr)
-def needle(dictionary):
-    for value in dictionary["haystack"]:
-        if(value == dictionary["needle"]):
-            return dictionary["haystack"].index(value) #found the needle!
+def excludePrefix(dictionary):
+    finalList = []
+    for value in dictionary["array"]:
+        if(value[0:4] != dictionary["prefix"]):
+            finalList.append(value)
 
-
-path = "/api/haystack?token=9e46e028f978939349e3fcd8d8a8c283&github=github.com/BJWOODS/Code2040Client"
-validPath = "/api/haystack/validate"
+    print finalList
+    return finalList
+path = "/api/prefix?token=9e46e028f978939349e3fcd8d8a8c283&github=github.com/BJWOODS/Code2040Client"
+validPath = "/api/prefix/validate"
 host = "challenge.code2040.org"
 jsonData = {"token":"9e46e028f978939349e3fcd8d8a8c283", "github":"github.com/BJWOODS/Code2040Client"}
 responseMsg = WebClientApiCaller(host,path,jsonData)
-dictionary = ast.literal_eval(responseMsg) 
-#print dictionary
-#print responseMsg
-pos = needle(dictionary)
+dictionary = ast.literal_eval(responseMsg) #Converting string to dictionary
+print dictionary["prefix"]
+print dictionary
 
-print pos
-
-jsonDataNew = {"token":"9e46e028f978939349e3fcd8d8a8c283","needle":pos}
-
-WebClientApiCaller(host, validPath, jsonDataNew)
+newArray = excludePrefix(dictionary)
+print newArray
+jsonDataNew = {"token":"9e46e028f978939349e3fcd8d8a8c283", "array":newArray}
+WebClientApiCaller(host,validPath,jsonDataNew)
