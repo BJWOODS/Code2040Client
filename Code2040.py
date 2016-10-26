@@ -25,10 +25,10 @@ def excludePrefix(dictionary):
 
     print finalList
     return finalList
-path = "/api/prefix?token=9e46e028f978939349e3fcd8d8a8c283&github=github.com/BJWOODS/Code2040Client"
+path = "/api/prefix"
 validPath = "/api/prefix/validate"
 host = "challenge.code2040.org"
-jsonData = {"token":"9e46e028f978939349e3fcd8d8a8c283", "github":"github.com/BJWOODS/Code2040Client"}
+jsonData = {"token":"9e46e028f978939349e3fcd8d8a8c283"}
 responseMsg = WebClientApiCaller(host,path,jsonData)
 dictionary = ast.literal_eval(responseMsg) #Converting string to dictionary
 print dictionary["prefix"]
@@ -36,5 +36,5 @@ print dictionary
 
 newArray = excludePrefix(dictionary)
 print newArray
-jsonDataNew = {"token":"9e46e028f978939349e3fcd8d8a8c283", "array":newArray}
+jsonDataNew = json.dumps({"token":"9e46e028f978939349e3fcd8d8a8c283", "array":newArray})
 WebClientApiCaller(host,validPath,jsonDataNew)
